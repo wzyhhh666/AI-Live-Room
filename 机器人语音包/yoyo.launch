@@ -1,0 +1,52 @@
+<launch>
+    <!-- 发言人定义：Ethan，Cherry，更多：https://help.aliyun.com/zh/model-studio/qwen-tts?spm=a2c4g.11186623.0.0.47f045dbpoMSNl#bac280ddf5a1u -->
+    <!-- 从包内 config/config.yaml 加载所有运行时设置（talker、language、start_wav、wakeup_wav、proxy 等） -->
+    <rosparam command="load" file="$(find L2)/config/config.yaml" />
+    
+    <!-- Communication nodes for config and search -->
+    <node 
+        name="search_node" 
+        pkg="L2" 
+        type="communicate_search.py"  
+        output="screen"
+        cwd="node"
+    />
+    <node 
+        name="config_node" 
+        pkg="L2" 
+        type="communicate_config.py"  
+        output="screen"
+        cwd="node"
+    />
+
+    <!-- Action Node -->
+    <node 
+        name="G1Arm" 
+        pkg="L2" 
+        type="G1Arm" 
+        output="screen"
+    />
+
+    <!-- TalkAudio 播放节点：用于接收 /L2/PCMAudio 并走本体音响播放 -->
+    <node 
+        name="TalkAudio" 
+        pkg="L2" 
+        type="TalkAudio" 
+        output="screen"
+    >
+        <!-- SDK volume (0-100) -->
+        <param name="volume" value="100"/>
+        <!-- System volume (0-100), maps to ALSA mixer 0-16000 -->
+        <param name="system_volume" value="100"/>
+    </node>
+
+    <node 
+        name="llm_node" 
+        pkg="L2" 
+        type="action_yuyinhuanxing_yoyo_closeai.py"  
+        output="screen"
+        cwd="node"
+    />
+</launch>
+
+
