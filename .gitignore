@@ -1,0 +1,119 @@
+# ============================================
+# AI Live Room - Git 忽略规则配置
+# ============================================
+
+# ---- 依赖目录 ----
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---- 构建输出 ----
+dist/
+build/
+*.tsbuildinfo
+out/
+
+# ---- 环境配置 ----
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# ---- 日志文件 ----
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ---- 编辑器配置 ----
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ---- 操作系统文件 ----
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- 临时文件 ----
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.cache/
+
+# ---- Docker ----
+docker-data/
+
+# ---- 数据库数据 ----
+mysql-data/
+redis-data/
+*.sql.bak
+*.db
+*.sqlite
+*.sqlite3
+
+# ---- 密钥和证书 ----
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+id_rsa
+id_rsa.pub
+
+# ---- 测试覆盖率 ----
+coverage/
+.nyc_output/
+*.lcov
+.coverage
+
+# ---- 打包文件 ----
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# ---- Electron ----
+release/
+dist-electron/
+
+# ---- VCPkg (C++包管理) ----
+vcpkg/
+vcpkg_installed/
+buildtrees/
+packages/
+downloads/
+
+# ---- CMake 构建缓存 ----
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+compile_commands.json
+CTestTestfile.cmake
+*.o
+*.a
+*.so
+*.dylib
+*.exe
+
+# ---- TypeScript ----
+*.tsbuildinfo
+
+# ---- 其他 ----
+.DS_Store
+Thumbs.db
+*.bak
+*.swp
+*~.lock

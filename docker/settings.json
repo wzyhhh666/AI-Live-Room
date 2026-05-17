@@ -1,0 +1,1 @@
+{"experimentalFeaturesEnabled": false, "kubernetesEnabled": false, "displayedVersion": {"version": "29.4.3"}, "useWindowsContainers": false, "integratedWslDistros": ["alpine"], "wslEngineEnabled": true}

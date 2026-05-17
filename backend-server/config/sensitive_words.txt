@@ -1,0 +1,15 @@
+# Sensitive Words Dictionary
+# Format: word,level (1=low, 2=medium, 3=high)
+# Level 1: Replace with *
+# Level 2: Replace with *
+# Level 3: Block entire message
+
+bad,1
+stupid,2
+idiot,3
+fool,1
+damn,2
+crap,1
+hell,1
+test,1
+example,2

@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  chatroom-server:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: chatroom-dev
+    volumes:
+      - ../chatroom-server:/workspace/chatroom-server:cached
+      - ../backend-server:/workspace/backend-server:cached
+      - ../chatroom-client:/workspace/chatroom-client:cached
+      - chatroom-build:/workspace/build
+      - chatroom-logs:/workspace/logs
+    working_dir: /workspace
+    environment:
+      - TZ=Asia/Shanghai
+    stdin_open: true
+    tty: true
+    networks:
+      - chatroom-net
+    ports:
+      - "8900:8900"
+    command: /bin/bash
+
+  mysql:
+    image: mysql:8.0
+    container_name: chatroom-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: chatroom_db
+      MYSQL_USER: chatroom
+      MYSQL_PASSWORD: chatroom123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./init-sql:/docker-entrypoint-initdb.d:ro
+    networks:
+      - chatroom-net
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  redis:
+    image: redis:7-alpine
+    container_name: chatroom-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - chatroom-net
+    command: redis-server --appendonly yes
+
+networks:
+  chatroom-net:
+    driver: bridge
+
+volumes:
+  mysql-data:
+  redis-data:
+  chatroom-build:
+  chatroom-logs:

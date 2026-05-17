@@ -1,0 +1,14 @@
+connect 127.0.0.1 8900
+login TestUser
+status
+join 1
+danmaku Welcome to AI Live Room!
+danmaku Project development completed!
+danmaku Thanks for all the hard work!
+gift 100 10
+gift 200 5
+danmaku System running stable!
+status
+leave 1
+logout
+quit
