@@ -1,28 +1,6 @@
 version: '3.8'
 
 services:
-  chatroom-server:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile
-    container_name: chatroom-dev
-    volumes:
-      - ../chatroom-server:/workspace/chatroom-server:cached
-      - ../backend-server:/workspace/backend-server:cached
-      - ../chatroom-client:/workspace/chatroom-client:cached
-      - chatroom-build:/workspace/build
-      - chatroom-logs:/workspace/logs
-    working_dir: /workspace
-    environment:
-      - TZ=Asia/Shanghai
-    stdin_open: true
-    tty: true
-    networks:
-      - chatroom-net
-    ports:
-      - "8900:8900"
-    command: /bin/bash
-
   mysql:
     image: mysql:8.0
     container_name: chatroom-mysql
@@ -68,20 +46,6 @@ services:
       - chatroom-net
     restart: unless-stopped
 
-  nginx:
-    build:
-      context: .
-      dockerfile: nginx/Dockerfile
-    container_name: chatroom-nginx
-    ports:
-      - "80:80"
-      - "443:443"
-    networks:
-      - chatroom-net
-    depends_on:
-      - srs-server
-    restart: unless-stopped
-
 networks:
   chatroom-net:
     driver: bridge
@@ -89,6 +53,4 @@ networks:
 volumes:
   mysql-data:
   redis-data:
-  chatroom-build:
-  chatroom-logs:
   srs-hls-data:

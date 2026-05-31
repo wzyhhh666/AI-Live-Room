@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS `rooms` (
     `title` VARCHAR(255),
     `cover_image` VARCHAR(255),
     `online_count` INT DEFAULT 0,
+    `like_count` INT DEFAULT 0,
     `state` ENUM('idle', 'living', 'closed') DEFAULT 'idle',
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -72,6 +73,20 @@ INSERT IGNORE INTO `gift_config` (`id`, `gift_name`, `gift_icon`, `price`, `effe
 (4, '跑车', '🏎️', 50.00, 'rocket', 4),
 (5, '火箭', '🚀', 100.00, 'explosion', 5),
 (6, '嘉年华', '🎪', 500.00, 'explosion', 6);
+
+CREATE TABLE IF NOT EXISTS `stream_records` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `room_id` INT NOT NULL,
+    `stream_id` VARCHAR(255),
+    `stream_url` VARCHAR(500),
+    `stream_type` ENUM('hls', 'flv', 'webrtc') DEFAULT 'flv',
+    `status` ENUM('active', 'inactive', 'error') DEFAULT 'active',
+    `started_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `ended_at` TIMESTAMP NULL DEFAULT NULL,
+    `duration_sec` INT DEFAULT 0,
+    FOREIGN KEY (`room_id`) REFERENCES `rooms`(`id`),
+    INDEX `idx_room_active` (`room_id`, `status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='推流记录表';
 
 CREATE TABLE IF NOT EXISTS `room_members` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,

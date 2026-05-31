@@ -150,6 +150,7 @@ install-docker.bat
 post-restart.bat
 dev.bat
 dev.sh
+*.sh
 
 # ---- 测试和临时记录文件 ----
 test_commands.txt
