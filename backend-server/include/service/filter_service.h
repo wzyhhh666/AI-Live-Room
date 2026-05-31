@@ -39,7 +39,7 @@ public:
 
 private:
     struct AcNode {
-        std::array<AcNode*, 128> children{};
+        std::array<AcNode*, 256> children{};
         AcNode* fail = nullptr;
         bool isEnd = false;
         int wordId = -1;

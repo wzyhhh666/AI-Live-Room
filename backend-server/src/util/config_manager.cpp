@@ -70,6 +70,26 @@ Result<void> ConfigManager::loadFromFile(const std::string& configPath) {
                 m_config.rateLimit.roomMaxPerSec = rl["room_max_per_sec"];
         }
 
+        if (json.contains("room")) {
+            auto& rm = json["room"];
+            if (rm.contains("max_online")) 
+                m_config.room.maxOnline = rm["max_online"];
+            if (rm.contains("recent_danmaku_count")) 
+                m_config.room.recentDanmakuCount = rm["recent_danmaku_count"];
+            if (rm.contains("recent_danmaku_ttl_sec")) 
+                m_config.room.recentDanmakuTtlSec = rm["recent_danmaku_ttl_sec"];
+        }
+
+        if (json.contains("filter")) {
+            auto& ft = json["filter"];
+            if (ft.contains("word_dict_path")) 
+                m_config.filter.wordDictPath = ft["word_dict_path"];
+            if (ft.contains("reload_interval_sec")) 
+                m_config.filter.reloadIntervalSec = ft["reload_interval_sec"];
+            if (ft.contains("max_text_length")) 
+                m_config.filter.maxTextLength = ft["max_text_length"];
+        }
+
         if (json.contains("log")) {
             auto& l = json["log"];
             if (l.contains("level")) m_config.log.level = l["level"];

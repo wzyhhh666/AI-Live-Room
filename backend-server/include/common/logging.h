@@ -23,38 +23,38 @@ public:
 
     template<typename... Args>
     void trace(const char* fmt, Args&&... args) {
-        m_consoleLogger->trace(fmt, std::forward<Args>(args)...);
-        m_fileLogger->trace(fmt, std::forward<Args>(args)...);
+        if (m_consoleLogger) m_consoleLogger->trace(fmt, std::forward<Args>(args)...);
+        if (m_fileLogger) m_fileLogger->trace(fmt, std::forward<Args>(args)...);
     }
 
     template<typename... Args>
     void debug(const char* fmt, Args&&... args) {
-        m_consoleLogger->debug(fmt, std::forward<Args>(args)...);
-        m_fileLogger->debug(fmt, std::forward<Args>(args)...);
+        if (m_consoleLogger) m_consoleLogger->debug(fmt, std::forward<Args>(args)...);
+        if (m_fileLogger) m_fileLogger->debug(fmt, std::forward<Args>(args)...);
     }
 
     template<typename... Args>
     void info(const char* fmt, Args&&... args) {
-        m_consoleLogger->info(fmt, std::forward<Args>(args)...);
-        m_fileLogger->info(fmt, std::forward<Args>(args)...);
+        if (m_consoleLogger) m_consoleLogger->info(fmt, std::forward<Args>(args)...);
+        if (m_fileLogger) m_fileLogger->info(fmt, std::forward<Args>(args)...);
     }
 
     template<typename... Args>
     void warn(const char* fmt, Args&&... args) {
-        m_consoleLogger->warn(fmt, std::forward<Args>(args)...);
-        m_fileLogger->warn(fmt, std::forward<Args>(args)...);
+        if (m_consoleLogger) m_consoleLogger->warn(fmt, std::forward<Args>(args)...);
+        if (m_fileLogger) m_fileLogger->warn(fmt, std::forward<Args>(args)...);
     }
 
     template<typename... Args>
     void error(const char* fmt, Args&&... args) {
-        m_consoleLogger->error(fmt, std::forward<Args>(args)...);
-        m_fileLogger->error(fmt, std::forward<Args>(args)...);
+        if (m_consoleLogger) m_consoleLogger->error(fmt, std::forward<Args>(args)...);
+        if (m_fileLogger) m_fileLogger->error(fmt, std::forward<Args>(args)...);
     }
 
     template<typename... Args>
     void critical(const char* fmt, Args&&... args) {
-        m_consoleLogger->critical(fmt, std::forward<Args>(args)...);
-        m_fileLogger->critical(fmt, std::forward<Args>(args)...);
+        if (m_consoleLogger) m_consoleLogger->critical(fmt, std::forward<Args>(args)...);
+        if (m_fileLogger) m_fileLogger->critical(fmt, std::forward<Args>(args)...);
     }
 
     void flush();

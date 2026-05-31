@@ -7,9 +7,9 @@ module.exports = {
   database: {
     mysql: {
       host: process.env.MYSQL_HOST || '127.0.0.1',
-      port: process.env.MYSQL_PORT || 3306,
-      user: process.env.MYSQL_USER || 'chatroom',
-      password: process.env.MYSQL_PASSWORD || 'chatroom123',
+      port: process.env.MYSQL_PORT || 3309,
+      user: process.env.MYSQL_USER || 'root',
+      password: process.env.MYSQL_PASSWORD || 'root123',
       database: process.env.MYSQL_DATABASE || 'chatroom_db',
       waitForConnections: true,
       connectionLimit: 10,
@@ -25,7 +25,16 @@ module.exports = {
   },
   
   cors: {
-    origin: ['http://localhost:5173', 'http://localhost:5174'],
+    origin: [
+      'http://localhost:5173',
+      'http://localhost:5174',
+      'http://127.0.0.1:5173',
+      'http://127.0.0.1:5174',
+      'http://10.56.132.159:5173',
+      'http://10.56.132.159:5174',
+      'https://10.56.132.159',
+      'https://localhost'
+    ],
     credentials: true
   }
 }

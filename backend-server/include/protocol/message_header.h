@@ -10,13 +10,13 @@ namespace chatroom {
 namespace protocol {
 
 constexpr uint32_t MAGIC_NUMBER = 0x48415443;
-constexpr uint16_t PROTOCOL_VERSION = 1;
+constexpr uint16_t CHAT_PROTOCOL_VERSION = 1;
 constexpr size_t HEADER_SIZE = 48;
 constexpr size_t MAX_PACKET_SIZE = 1 * 1024 * 1024;
 
 struct MessageHeader {
     uint32_t magic = MAGIC_NUMBER;
-    uint16_t version = PROTOCOL_VERSION;
+    uint16_t version = CHAT_PROTOCOL_VERSION;
     uint16_t headerLen = HEADER_SIZE;
     uint16_t msgType = 0;
     uint16_t flags = 0;
@@ -32,7 +32,7 @@ struct MessageHeader {
     
     bool isValid() const {
         return magic == MAGIC_NUMBER && 
-               version == PROTOCOL_VERSION && 
+               version == CHAT_PROTOCOL_VERSION && 
                headerLen == HEADER_SIZE &&
                bodyLen <= MAX_PACKET_SIZE;
     }

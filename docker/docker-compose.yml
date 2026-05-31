@@ -32,7 +32,7 @@ services:
       MYSQL_USER: chatroom
       MYSQL_PASSWORD: chatroom123
     ports:
-      - "3306:3306"
+      - "3309:3306"
     volumes:
       - mysql-data:/var/lib/mysql
       - ./init-sql:/docker-entrypoint-initdb.d:ro
@@ -51,6 +51,37 @@ services:
       - chatroom-net
     command: redis-server --appendonly yes
 
+  srs-server:
+    image: ossrs/srs:5
+    container_name: chatroom-srs
+    ports:
+      - "1935:1935"
+      - "8080:8080"
+      - "8088:8088"
+      - "1985:1985"
+      - "8000:8000/tcp"
+      - "8000:8000/udp"
+    volumes:
+      - ../srs/srs.conf:/usr/local/srs/conf/srs.conf:ro
+      - srs-hls-data:/usr/local/srs/objs/nginx/html
+    networks:
+      - chatroom-net
+    restart: unless-stopped
+
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    container_name: chatroom-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - chatroom-net
+    depends_on:
+      - srs-server
+    restart: unless-stopped
+
 networks:
   chatroom-net:
     driver: bridge
@@ -60,3 +91,4 @@ volumes:
   redis-data:
   chatroom-build:
   chatroom-logs:
+  srs-hls-data:

@@ -15,7 +15,7 @@ protected:
 TEST_F(ProtocolTest, HeaderSerialization) {
     MessageHeader header;
     header.magic = MAGIC_NUMBER;
-    header.version = PROTOCOL_VERSION;
+    header.version = CHAT_PROTOCOL_VERSION;
     header.msgType = static_cast<uint16_t>(MessageType::MSG_DANMAKU);
     header.seq = 12345;
     header.roomId = 1001;

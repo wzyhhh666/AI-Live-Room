@@ -4,9 +4,14 @@
 #include <vector>
 #include <functional>
 #include <atomic>
+#include <memory>
 #include "common/result.h"
 
 namespace chatroom {
+namespace protocol {
+class MessageDispatcher;
+}
+
 namespace net{
 
 class EpollServer {
@@ -20,6 +25,8 @@ public:
     Result<void> init(const std::string& host, uint16_t port, int backlog = 1024);
     Result<void> start();
     void stop();
+
+    void setDispatcher(std::shared_ptr<protocol::MessageDispatcher> dispatcher);
     
     bool isRunning() const { return m_running.load(); }
 
@@ -33,6 +40,7 @@ private:
     int m_listenFd = -1;
     std::atomic<bool> m_running{false};
     std::vector<struct epoll_event> m_events;
+    std::shared_ptr<protocol::MessageDispatcher> m_dispatcher;
     
     constexpr static int MAX_EVENTS = 1024;
 };

@@ -18,7 +18,8 @@ export interface DanmakuMessage {
   content: string
   color: string
   timestamp: number
-  type: 'normal' | 'gift' | 'system'
+  type: 'normal' | 'gift' | 'system' | 'emoji'
+  time?: string
 }
 
 export const useRoomStore = defineStore('room', () => {
@@ -46,11 +47,17 @@ export const useRoomStore = defineStore('room', () => {
     onlineUsers.value.clear()
   }
   
-  function addDanmaku(msg: DanmakuMessage) {
+  function addDanmaku(msg: Partial<DanmakuMessage> & { content: string }) {
+    const ts = msg.timestamp || Date.now()
     danmakuList.value.push({
-      ...msg,
-      id: Date.now() + Math.random(),
-      timestamp: Date.now()
+      id: msg.id || Date.now() + Math.random(),
+      userId: msg.userId || 0,
+      username: msg.username || 'unknown',
+      content: msg.content,
+      color: msg.color || '#00ff41',
+      timestamp: ts,
+      type: msg.type || 'normal',
+      time: msg.time || `${String(new Date(ts).getHours()).padStart(2,'0')}:${String(new Date(ts).getMinutes()).padStart(2,'0')}:${String(new Date(ts).getSeconds()).padStart(2,'0')}`
     })
     
     if (danmakuList.value.length > 500) {

@@ -44,6 +44,8 @@ add_library(chatroom_common STATIC
     src/net/epoll_server.cpp
     src/data/mysql_pool.cpp
     src/data/redis_pool.cpp
+    src/data/mysql_repository.cpp
+    src/data/redis_pubsub.cpp
     src/service/danmaku_service.cpp
     src/service/filter_service.cpp
 )

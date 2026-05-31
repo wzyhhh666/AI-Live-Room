@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid')
 const db = require('./database')
 
-async function login(username, password) {
+async function login(username) {
   const pool = await db.getMysqlPool()
   
   try {

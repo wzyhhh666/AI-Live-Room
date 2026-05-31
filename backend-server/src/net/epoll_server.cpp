@@ -1,12 +1,15 @@
 #include "net/epoll_server.h"
 #include "net/connection.h"
 #include "protocol/message_header.h"
+#include "protocol/message_codec.h"
+#include "protocol/message_dispatcher.h"
 #include "common/logging.h"
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <cstring>
 
 namespace chatroom {
 namespace net {
@@ -240,6 +243,46 @@ void EpollServer::handleRead(int fd) {
         LOG_DEBUG("EpollServer: fd={} has {} bytes in buffer, ready for processing", 
                  fd, conn->getReadBufferSize());
     }
+
+    if (m_dispatcher) {
+        std::string& readBuf = conn->getReadBuffer();
+        size_t parsedOffset = 0;
+
+        while (parsedOffset + 4 <= readBuf.size()) {
+            uint32_t networkLen = 0;
+            std::memcpy(&networkLen, readBuf.data() + parsedOffset, 4);
+            uint32_t packetLen = ntohl(networkLen);
+
+            if (packetLen < 48 || packetLen > 1048576) {
+                LOG_WARN("EpollServer: invalid packet length {} from fd={}", packetLen, fd);
+                conn->clearReadBuffer();
+                break;
+            }
+
+            size_t totalNeeded = parsedOffset + 4 + packetLen;
+            if (readBuf.size() < totalNeeded) {
+                break;
+            }
+
+            std::string packet(readBuf.data() + parsedOffset, 4 + packetLen);
+            parsedOffset += 4 + packetLen;
+
+            auto decodeResult = protocol::MessageCodec::decode(packet);
+            if (decodeResult.isOk()) {
+                m_dispatcher->dispatch(fd, decodeResult.value());
+            } else {
+                LOG_WARN("EpollServer: decode failed for fd={}: {}", fd, decodeResult.message());
+            }
+        }
+
+        if (parsedOffset > 0) {
+            readBuf.erase(0, parsedOffset);
+        }
+    }
+}
+
+void EpollServer::setDispatcher(std::shared_ptr<protocol::MessageDispatcher> dispatcher) {
+    m_dispatcher = dispatcher;
 }
 
 void EpollServer::handleError(int fd) {
