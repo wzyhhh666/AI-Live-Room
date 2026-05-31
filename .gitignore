@@ -107,6 +107,7 @@ CTestTestfile.cmake
 
 # ---- TypeScript ----
 *.tsbuildinfo
+vite.config.ts.timestamp-*
 
 # ============================================
 # 🚫 推送时需要排除的文件（开发过程文件）

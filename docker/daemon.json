@@ -1,1 +1,0 @@
-{"registry-mirrors": ["https://docker.1ms.run", "https://docker.xuany.me", "https://docker.m.daocloud.io"], "insecure-registries": ["hubproxy.docker.internal:5555", "::1/128", "127.0.0.0/8"]}
